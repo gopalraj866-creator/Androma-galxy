@@ -22,8 +22,23 @@ if [ -z "${YOUTUBE_API_KEY:-}" ] || [ -z "${YOUTUBE_CHANNEL_ID:-}" ]; then
     SHOW_STATS=false
 fi
 
+#############################################
+# Tonight's topic: Andromeda Galaxy (M31)
+# Date: Thursday, October 15, 2026
+#
+# Suggested YouTube live title (set this in YouTube Studio —
+# the stream key only controls the video feed, not the title):
+#   LIVE NOW 🔭 Andromeda Galaxy M31 | Journey Beyond the Milky Way 🌌 3D Space Simulation
+#
+# NOTE: VIDEO_URL should point at the cinematic 3D "Earth -> Andromeda"
+# journey render(s). This script supplies the on-screen panel, facts,
+# ticker, labels and bumpers; the footage itself comes from VIDEO_URL.
+#############################################
+LIVE_TITLE="LIVE NOW 🔭 Andromeda Galaxy M31 | Journey Beyond the Milky Way 🌌 3D Space Simulation"
+
 echo "========================================"
-echo "Starting 24/7 YouTube Stream (Documentary Overlay)"
+echo "Starting 24/7 YouTube Stream (Andromeda Galaxy Journey)"
+echo "Suggested live title: ${LIVE_TITLE}"
 echo "Output Resolution : 1280x720 (720p — sized for a 2-core CI runner)"
 echo "FPS               : 30"
 echo "========================================"
@@ -62,16 +77,16 @@ SUB_ICON_R=20
 ENABLE_BUMPER=true
 BUMPER_DURATION=5   # seconds
 BUMPER_MESSAGES=(
-    "Stay tuned as the James Webb Space Telescope reveals more of the Universe."
-    "A new window into the cosmos is coming up next."
-    "Journey deeper into space as Webb explores distant cosmic worlds."
-    "From ancient galaxies to stellar nurseries, more discoveries await."
-    "The Universe is still unfolding. Stay with us for the next view."
-    "See the cosmos in extraordinary detail through the eyes of Webb."
-    "Every new observation brings another piece of our cosmic story."
-    "Look deeper into space and further back in cosmic time."
-    "More distant galaxies, brilliant stars, and hidden cosmic structures are ahead."
-    "The next chapter of our journey through the Universe begins shortly."
+    "Next stop: Andromeda, 2.5 million light-years beyond the Milky Way."
+    "Leaving our galaxy behind. The journey to M31 continues."
+    "Andromeda is racing toward us. Stay with us for the next view."
+    "A trillion stars wait ahead in our nearest large galactic neighbor."
+    "Cross the great void between galaxies, one light-year at a time."
+    "The light you see from Andromeda left before humans existed."
+    "Fly closer to the spiral arms, dust lanes and glowing core of M31."
+    "Two galaxies, one future. Andromeda and the Milky Way are on a collision course."
+    "Look back at the Milky Way as we travel deeper into intergalactic space."
+    "The next leg of our journey to the Andromeda Galaxy begins shortly."
 )
 
 #############################################
@@ -205,12 +220,12 @@ trap 'kill "$CLOCK_PID" 2>/dev/null || true; [ -n "$SUBS_PID" ] && kill "$SUBS_P
 #############################################
 # Static panel text (unchanged across videos)
 #############################################
-printf 'J A M E S   W E B B'              > "$ASSET_DIR/title1.txt"
-printf 'S P A C E   T E L E S C O P E'    > "$ASSET_DIR/title2.txt"
-printf "T O D A Y ' S   D I S C O V E R Y" > "$ASSET_DIR/header.txt"
-printf 'DEEP SPACE REPORT'                > "$ASSET_DIR/eyebrow.txt"
-printf 'SUBSCRIBE for daily space discoveries' > "$ASSET_DIR/cta.txt"
-printf 'DID YOU KNOW' > "$ASSET_DIR/fact_label.txt"
+printf 'A N D R O M E D A'                       > "$ASSET_DIR/title1.txt"
+printf 'G A L A X Y   M 3 1'                     > "$ASSET_DIR/title2.txt"
+printf "T O N I G H T ' S   J O U R N E Y"       > "$ASSET_DIR/header.txt"
+printf '2.5 MILLION LIGHT-YEARS FROM EARTH'      > "$ASSET_DIR/eyebrow.txt"
+printf 'SUBSCRIBE for nightly space journeys'    > "$ASSET_DIR/cta.txt"
+printf 'DID YOU KNOW'                            > "$ASSET_DIR/fact_label.txt"
 
 #############################################
 # Default headline / fact pools (used as a
@@ -218,74 +233,75 @@ printf 'DID YOU KNOW' > "$ASSET_DIR/fact_label.txt"
 # are missing or empty)
 #############################################
 DEFAULT_HEADLINES=(
-    "The James Webb Space Telescope continues revealing the Universe in extraordinary infrared detail."
-    "Webb is looking deeper into cosmic history, studying some of the earliest galaxies ever observed."
-    "Astronomers are using Webb to investigate the atmospheres and chemistry of distant exoplanets."
-    "Infrared observations are revealing stellar nurseries hidden behind dense clouds of cosmic dust."
-    "Webb is helping scientists investigate how the first galaxies formed and evolved after the Big Bang."
-    "Distant galaxies observed by Webb are giving astronomers new clues about the evolution of the cosmos."
-    "Webb observations are revealing complex chemistry in the regions where stars and planets are born."
-    "Young planetary systems are helping scientists understand how worlds form around distant stars."
-    "Webb continues studying protoplanetary disks where the building blocks of new planets are taking shape."
-    "Astronomers are using Webb to explore the environments surrounding supermassive black holes."
-    "The Euclid mission is mapping billions of galaxies to investigate the nature of dark matter and dark energy."
-    "The Vera C. Rubin Observatory is beginning a new era of wide-field astronomical observations of the Southern Sky."
-    "Gravitational-wave observatories are opening another window onto violent events across the Universe."
-    "Scientists are combining observations from Webb and other observatories to build a more complete picture of cosmic evolution."
-    "Every deep-space observation adds another piece to the story of how galaxies, stars, and planets came to exist."
+    "Tonight we travel from Earth toward the Andromeda Galaxy, about 2.5 million light-years away."
+    "Andromeda is the nearest large spiral galaxy to the Milky Way."
+    "Andromeda is well placed for evening viewing this October, high in the sky for northern observers."
+    "From a dark site, Andromeda can be seen with the naked eye as a faint, elongated smudge."
+    "The light reaching us from Andromeda tonight left on its journey about 2.5 million years ago."
+    "Andromeda is thought to contain around one trillion stars, far more than the Milky Way."
+    "Andromeda and the Milky Way are approaching each other and are expected to merge in billions of years."
+    "At the heart of Andromeda lies a supermassive black hole surrounded by a dense core of stars."
+    "Hubble's survey of Andromeda has resolved the light of well over a hundred million individual stars."
+    "Andromeda's companion galaxies, including M32 and M110, orbit the main spiral."
+    "In the 1920s, Edwin Hubble used Andromeda to show that galaxies exist far beyond our own."
+    "Infrared views of Andromeda reveal vast lanes of dust where new stars are being born."
+    "Astronomers study Andromeda's halo of faint stars to learn how large galaxies grow by absorbing smaller ones."
+    "Looking at Andromeda is like seeing the Milky Way from the outside."
+    "Every step of this journey crosses the quiet gulf between galaxies, billions of times wider than our Solar System."
 )
 
 DEFAULT_FACTS=(
-    "The Universe is approximately 13.8 billion years old."
+    "The Andromeda Galaxy, also called M31, is about 2.5 million light-years from Earth."
     "A light-year is the distance light travels in one year, about 9.46 trillion kilometers."
-    "The James Webb Space Telescope observes the Universe primarily in infrared wavelengths."
-    "Webb can observe extremely distant galaxies whose light has traveled for more than 13 billion years."
-    "Webb studies the atmospheres of exoplanets by analyzing how their atmospheres interact with starlight."
-    "Infrared astronomy allows Webb to see through some clouds of cosmic dust that block visible light."
-    "Webb is studying how stars and planetary systems form inside clouds of gas and dust."
-    "Some early galaxies observed by Webb existed within the first few hundred million years of cosmic history."
-    "Astronomers use Webb to investigate how galaxies assembled and evolved over billions of years."
-    "The Milky Way contains hundreds of billions of stars."
-    "The observable Universe contains an enormous number of galaxies, each containing millions to trillions of stars."
-    "The Sun contains about 99.8 percent of the mass of the Solar System."
-    "Jupiter is the largest planet in our Solar System."
-    "Mars is home to Olympus Mons, the largest known volcano in the Solar System."
-    "Saturn's spectacular rings are made primarily of water-ice particles mixed with rock and dust."
-    "Venus is the hottest planet in the Solar System because of its powerful greenhouse effect."
-    "Mercury experiences extreme temperature differences between its day and night sides."
-    "Neptune has the fastest planetary winds measured in the Solar System, exceeding 2,000 kilometers per hour."
-    "Uranus rotates with an extreme axial tilt of about 98 degrees, making it appear to rotate on its side."
-    "Earth is currently the only planet known to naturally support life."
-    "The Moon is slowly moving away from Earth at an average rate of about 3.8 centimeters per year."
-    "The International Space Station orbits Earth at roughly 28,000 kilometers per hour."
-    "Neutron stars pack more mass than the Sun into a sphere only a few tens of kilometers across."
-    "A black hole's event horizon marks the boundary beyond which light cannot escape."
+    "Andromeda is the farthest object most people can see with the naked eye."
+    "Andromeda is roughly 220,000 light-years across by some estimates, larger than the Milky Way's visible disk."
+    "Andromeda is thought to contain around one trillion stars."
+    "The Milky Way is estimated to contain a few hundred billion stars."
+    "Andromeda is moving toward the Milky Way at roughly 110 kilometers per second."
+    "The Milky Way and Andromeda are expected to merge in about 4 to 5 billion years."
+    "The future merged galaxy has been nicknamed Milkomeda."
+    "Despite the merger, individual stars are so far apart that direct star-to-star collisions will be extremely rare."
+    "In the night sky, Andromeda spans an area several times wider than the full Moon, though most of it is too faint to see."
+    "Andromeda lies in the constellation Andromeda, near Cassiopeia and Pegasus."
+    "The Persian astronomer Abd al-Rahman al-Sufi described Andromeda as a small cloud in the 10th century."
+    "Edwin Hubble measured the distance to Andromeda using a Cepheid variable star in the 1920s."
+    "That measurement proved Andromeda lies far outside the Milky Way and helped reveal a Universe full of galaxies."
+    "Cepheid variable stars pulse in brightness at a rate tied to their true luminosity, making them cosmic distance markers."
+    "Andromeda's central supermassive black hole is estimated to be around 100 million times the mass of the Sun."
+    "M32 and M110 are two of Andromeda's brighter satellite galaxies."
+    "Andromeda has dozens of known satellite galaxies."
+    "Andromeda and the Milky Way belong to the Local Group of galaxies."
+    "The Local Group contains more than 80 known galaxies, including the Triangulum Galaxy."
+    "The Triangulum Galaxy, M33, is the third largest galaxy in the Local Group."
+    "Hubble's PHAT survey imaged more than 100 million stars in Andromeda."
+    "Infrared telescopes can see dust rings in Andromeda that are hidden at visible wavelengths."
+    "Andromeda has a distinctive ring of star formation about 75,000 light-years across."
+    "Light from Andromeda left before modern humans had spread across the world."
+    "Even traveling at the speed of light, the trip to Andromeda would take 2.5 million years."
+    "The Voyager 1 spacecraft would need tens of billions of years to reach Andromeda at its current speed."
+    "Andromeda's halo of faint stars extends far beyond its bright disk."
+    "Streams of stars in Andromeda's halo are the remains of smaller galaxies it has absorbed."
+    "The Milky Way is a barred spiral galaxy about 100,000 light-years across."
+    "Our Solar System sits in a spiral arm about 26,000 light-years from the Milky Way's center."
     "At the center of the Milky Way lies a supermassive black hole called Sagittarius A*."
-    "Gravitational waves are ripples in spacetime produced by accelerating massive objects, including merging black holes."
-    "Dark matter does not emit or reflect light in a way we can directly detect, but its gravitational effects reveal its presence."
-    "Dark energy is the name given to the unknown component associated with the accelerating expansion of the Universe."
-    "The Milky Way and Andromeda galaxies are expected to interact and eventually merge over billions of years."
-    "A supernova is a powerful stellar explosion associated with the death of certain massive stars and other stellar events."
-    "The core of the Sun reaches temperatures of roughly 15 million degrees Celsius."
-    "Proxima Centauri is the closest known star to the Sun, at about 4.24 light-years away."
+    "The Event Horizon Telescope revealed the first image of Sagittarius A* in 2022."
+    "The observable Universe contains an enormous number of galaxies, each with millions to trillions of stars."
+    "Galaxies are connected across the Universe by a vast cosmic web of filaments, walls, and voids."
+    "Dark matter makes up most of the mass of galaxies like Andromeda, yet it does not emit light we can detect."
+    "Astronomers measure how fast Andromeda's stars orbit to map its invisible dark matter halo."
+    "The space between galaxies is not empty, but it is extraordinarily thin, with only a few atoms per cubic meter."
+    "The James Webb Space Telescope observes the Universe primarily in infrared wavelengths."
+    "Webb has studied dust and star formation in Andromeda in infrared detail."
+    "The Universe is approximately 13.8 billion years old."
+    "Andromeda is thought to have had a violent past, including a major galactic merger billions of years ago."
+    "Many of the stars and nebulae seen in Andromeda are individually visible only in the largest telescopes."
+    "Autumn evenings are among the best times of year to look for Andromeda from the Northern Hemisphere."
+    "A good way to find Andromeda is to start from the W-shaped constellation Cassiopeia."
+    "Binoculars can reveal Andromeda's bright core as a fuzzy oval glow."
+    "Dark skies away from city lights make a big difference when looking for Andromeda."
+    "Earth is currently the only planet known to naturally support life."
     "Thousands of exoplanets have been confirmed beyond our Solar System."
-    "Exoplanets range from enormous gas giants to rocky worlds and planets with unusual atmospheric compositions."
-    "Galaxies are connected across the Universe by a vast cosmic web of filaments, walls, and enormous voids."
-    "Einstein's theory of relativity predicts that clocks run more slowly in stronger gravitational fields."
-    "Voyager 1 is the most distant human-made spacecraft from Earth."
-    "Voyager 1 crossed the heliopause and entered interstellar space in 2012."
-    "Earth's magnetic field helps shield the planet from charged particles carried by the solar wind."
-    "Auroras occur when energetic charged particles interact with gases in Earth's upper atmosphere."
-    "Webb has produced some of the deepest and most detailed infrared observations of the distant Universe."
-    "Webb is helping astronomers investigate how the earliest galaxies formed and evolved."
-    "Some early galaxies observed by Webb appear surprisingly bright and massive, providing important tests for galaxy-formation models."
-    "Star-forming nebulae contain enormous clouds of gas and dust where new stars can form."
-    "The asteroid belt between Mars and Jupiter contains millions of rocky bodies of different sizes."
-    "Comets are icy bodies that can develop bright comas and tails when heated by the Sun."
-    "Pulsars are rapidly rotating neutron stars that produce beams of electromagnetic radiation."
-    "The Event Horizon Telescope produced the first image of a black hole's shadow in 2019."
-    "In 2022, the Event Horizon Telescope revealed the first image of Sagittarius A*, the black hole at the center of our galaxy."
-    "The search for potentially habitable exoplanets is one of the major goals of modern astronomy."
+    "The search for life beyond Earth is one of the major goals of modern astronomy."
 )
 
 #############################################
@@ -425,8 +441,7 @@ build_labels_chain() {
         # Collision avoidance: if this box overlaps (within BOX_GAP of)
         # any box already placed for an earlier label on this video,
         # push it downward in BOX_H+BOX_GAP steps until it's clear, so
-        # two nearby coordinate labels never end up crowding each other
-        # like "Glowing gas knot" / "Dust cloud region" did before.
+        # two nearby coordinate labels never end up crowding each other.
         tries=0
         while :; do
             collision=false
@@ -520,12 +535,9 @@ prepare_video_content() {
     base="${base%.*}"
 
     # FIX: same reasoning as build_labels_chain() above — this function
-    # is also called once per video from inside the outer stream loop
-    # (`for ((i = 0; i < NUM_URLS; i++))` at the bottom of this file),
+    # is also called once per video from inside the outer stream loop,
     # and it reuses bare `i`/`idx` in several for-loops below. Without
-    # `local`, those loops overwrite the outer loop's global `i`, which
-    # made the stream get stuck re-playing the first video forever
-    # instead of advancing through the playlist.
+    # `local`, those loops overwrite the outer loop's global `i`.
     local i idx
 
     RAW_LINES=()
@@ -764,7 +776,7 @@ run_bumper() {
     raw="${raw//[-_]/ }"
     raw="$(echo "$raw" | tr -d '[:space:]')"
     if [ -z "$raw" ] || [ ${#raw} -lt 3 ]; then
-        title="A New Discovery"
+        title="Journey to Andromeda"
     else
         raw="${next_url##*/}"
         raw="${raw%.*}"
