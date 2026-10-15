@@ -34,7 +34,7 @@ fi
 # journey render(s). This script supplies the on-screen panel, facts,
 # ticker, labels and bumpers; the footage itself comes from VIDEO_URL.
 #############################################
-LIVE_TITLE="LIVE NOW 🔭 Andromeda Galaxy M31 | Journey Beyond the Milky Way 🌌 3D Space Simulation"
+LIVE_TITLE="LIVE 🔴 Andromeda Galaxy M31 | 2.5 Million Light-Years Away"
 
 echo "========================================"
 echo "Starting 24/7 YouTube Stream (Andromeda Galaxy Journey)"
